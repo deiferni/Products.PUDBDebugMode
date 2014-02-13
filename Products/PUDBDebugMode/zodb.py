@@ -16,12 +16,15 @@ def register(self, obj):
     orig_register(self, obj)
 
     from zope.testing.testrunner import options
-    if options.get_options().post_mortem:
-        writer = ObjectWriter(obj)
+    try:
+        if options.get_options().post_mortem:
+            writer = ObjectWriter(obj)
 
-        # Replace the pickler so that it doesn't set oids
-        import cPickle as pickle
-        writer._p = pickle.Pickler(writer._file, 1)
+            # Replace the pickler so that it doesn't set oids
+            import cPickle as pickle
+            writer._p = pickle.Pickler(writer._file, 1)
 
-        # Try to serialize to raise piclkling errors early
-        writer.serialize(obj)
+            # Try to serialize to raise piclkling errors early
+            writer.serialize(obj)
+    except SystemExit:
+        pass
