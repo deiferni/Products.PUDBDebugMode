@@ -1,22 +1,19 @@
-try:
-    import ipdb as pdb
-except:
-    import pdb
+import pudb
 
 from Products.SiteErrorLog import SiteErrorLog
 
-from Products.PDBDebugMode import pdblogging
+from Products.PUDBDebugMode import pudblogging
 
 orig_raising = SiteErrorLog.SiteErrorLog.raising
 
 def raising(self, info):
-    """Catch the traceback and bypass pdblogging"""
+    """Catch the traceback and bypass pudblogging"""
     def error(msg, *args, **kw):
-        return pdblogging.orig_error(
+        return pudblogging.orig_error(
             SiteErrorLog.LOG, msg, *args, **kw)
     SiteErrorLog.LOG.error = error
     result = orig_raising(self, info)
     if result:
-        pdb.post_mortem(info[2])
+        pudb.post_mortem(info[2])
     del SiteErrorLog.LOG.error
     return result

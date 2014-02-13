@@ -1,5 +1,5 @@
-PDBDebugMode - drops a Zope running with debug-mode=on into the Python
-Debugger (pdb) upon encountering an error.
+PUDBDebugMode - drops a Zope running with debug-mode=on into the pudb
+upon encountering an error.
 
 Copyright (C) 2006 Ross Patterson
 

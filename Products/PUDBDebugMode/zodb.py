@@ -10,11 +10,11 @@ def register(self, obj):
 
     Raise any PicklingErrors when the object is added to the
     transaction as opposed to when the transaction is committed.
-    Under pdb, for example, this allows inspecting the code that made
+    Under pudb, for example, this allows inspecting the code that made
     the change resulting in the PicklingError.
     """
     orig_register(self, obj)
-    
+
     from zope.testing.testrunner import options
     if options.get_options().post_mortem:
         writer = ObjectWriter(obj)

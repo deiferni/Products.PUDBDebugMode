@@ -1,5 +1,5 @@
 Introduction
 ============
 
-See Products/PDBDebugMode/README.txt
+See Products/PUDBDebugMode/README.txt
 

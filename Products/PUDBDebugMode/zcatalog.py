@@ -2,10 +2,7 @@
 might want to debug."""
 
 import sys
-try:
-    import ipdb as pdb
-except:
-    import pdb
+import pudb
 
 from Products.ZCatalog.ZCatalog import ZCatalog
 
@@ -20,7 +17,7 @@ def catalog_object(self, obj, uid=None, idxs=None,
             update_metadata=update_metadata, pghandler=pghandler)
     except:
         t, v, tb = sys.exc_info()
-        pdb.post_mortem(tb)
+        pudb.post_mortem(tb)
         raise
 
 def refreshCatalog(self, clear=0, pghandler=None):

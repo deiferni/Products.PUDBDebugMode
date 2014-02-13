@@ -1,4 +1,4 @@
-import pdb
+import pudb
 
 from ZPublisher import Publish
 
@@ -32,21 +32,21 @@ def resolveDottedName(dotted_name):
 
     return obj
 
-def pdb_runcall(object, args, request):
-    """If the request has the pdb_runcall key then we run the result
+def pudb_runcall(object, args, request):
+    """If the request has the pudb_runcall key then we run the result
     of request traversal in the debugger.  Othwise, do it normally.
 
-    A cookie for pdb_runcall may also be set or removed if the request
+    A cookie for pudb_runcall may also be set or removed if the request
     has the toggle_runcall key."""
     response = request.response
 
     if request.has_key('toggle_runcall') and request.toggle_runcall:
-        runcall_cookie = request.cookies.get('pdb_runcall', False)
+        runcall_cookie = request.cookies.get('pudb_runcall', False)
         if runcall_cookie:
-            response.expireCookie('pdb_runcall')
-            return Publish.call_object(object, args, request) 
+            response.expireCookie('pudb_runcall')
+            return Publish.call_object(object, args, request)
         else:
-            response.setCookie('pdb_runcall', 1)
+            response.setCookie('pudb_runcall', 1)
 
     if request.has_key('set_runcall_ignore'):
         if request.set_runcall_ignore:
@@ -54,9 +54,9 @@ def pdb_runcall(object, args, request):
                 response.appendCookie('runcall_ignore', ignore)
         else:
             response.expireCookie('runcall_ignore')
-            
-    if request.has_key('pdb_runcall'):
-        if request.pdb_runcall:
+
+    if request.has_key('pudb_runcall'):
+        if request.pudb_runcall:
             ignores = request.get('runcall_ignore', [])
             if ignores:
                 ignores = ignores.split(':')
@@ -65,12 +65,12 @@ def pdb_runcall(object, args, request):
                 if obj.im_func is getattr(object, 'im_func', None):
                     break
             else:
-                return pdb.runcall(object, *args)
+                return pudb.runcall(object, *args)
 
-    return Publish.call_object(object, args, request) 
+    return Publish.call_object(object, args, request)
 
-def pdb_publish(request, module_name, after_list, debug=0,
-                call_object=pdb_runcall,
+def pudb_publish(request, module_name, after_list, debug=0,
+                call_object=pudb_runcall,
                 missing_name=Publish.missing_name,
                 dont_publish_class=Publish.dont_publish_class,
                 mapply=Publish.mapply, ):

@@ -3,14 +3,10 @@
 import sys
 import re
 import logging
-try:
-    from ipdb import set_trace
-    from ipdb import post_mortem
-except:
-    from pdb import set_trace
-    from pdb import post_mortem
+from pudb import set_trace
+from pudb import post_mortem
 
-logger = logging.getLogger('Products.PDBDebugMode')
+logger = logging.getLogger('Products.PUDBDebugMode')
 
 LoggerClass = logging.getLoggerClass()
 orig_error = LoggerClass.error
@@ -29,7 +25,7 @@ ignore_matchers = (
     )
 
 def error(self, msg, *args, **kw):
-    """Drop into pdb when logging an error."""
+    """Drop into pudb when logging an error."""
     result = orig_error(self, msg, *args, **kw)
 
     if not isinstance(msg, basestring):
@@ -50,5 +46,5 @@ def error(self, msg, *args, **kw):
             post_mortem(traceback)
         else:
             set_trace()
-        
+
     return result

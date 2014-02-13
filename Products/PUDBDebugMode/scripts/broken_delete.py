@@ -18,7 +18,7 @@ for path, obj in app.ZopeFind(app, search_sub=True,
             if container.manage_delObjects is not None:
                 container.manage_delObjects([broken_id])
     except:
-        import pdb, sys; pdb.post_mortem(sys.exc_info()[2])
+        import pudb, sys; pudb.post_mortem(sys.exc_info()[2])
         raise
-                
+
 transaction.commit()
